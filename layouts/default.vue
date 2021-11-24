@@ -19,7 +19,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title v-text="item.title"/>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -29,7 +29,7 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
@@ -48,37 +48,20 @@
       >
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
+      <v-toolbar-title v-text="title"/>
+      <v-spacer/>
       <v-btn
         icon
-        @click.stop="rightDrawer = !rightDrawer"
+        @click.stop="logout"
       >
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
       <v-container fill-height>
-        <Nuxt />
+        <Nuxt/>
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
       app
@@ -89,6 +72,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data () {
     return {
@@ -109,8 +94,17 @@ export default {
       ],
       miniVariant: false,
       right: true,
-      rightDrawer: false,
       title: 'Vuetify.js'
+    }
+  },
+  methods: {
+    ...mapActions({
+      deleteTokens: 'auth/deleteTokens'
+    }),
+    logout () {
+      this.deleteTokens().then(() => {
+        this.$router.push('/login')
+      })
     }
   }
 }

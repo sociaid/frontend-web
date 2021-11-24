@@ -37,6 +37,10 @@ export const actions = {
         refreshToken
       })
     })
-
+  },
+  deleteTokens (ctx) {
+    return Promise.all([this.$localForage.removeItem(accessTokenKey), this.$localForage.removeItem(refreshTokenKey)]).then(() => {
+      ctx.commit('setTokens', {accessToken: null, refreshToken: null })
+    })
   }
 }
