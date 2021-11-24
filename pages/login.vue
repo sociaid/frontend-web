@@ -27,6 +27,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
+  layout: 'blank',
   data () {
     return {
       valid: false,
@@ -53,17 +54,17 @@ export default {
         access_token,
         refresh_token
       }) => {
-        console.log('access', access_token)
-        console.log('refresh', refresh_token)
         this.saveTokens({
           refreshToken: refresh_token,
           accessToken: access_token
+        }).then(() => {
+          this.$router.push('/')
         })
       }).catch((reason) => {
         if (reason.response.status === 401) {
-          console.log('passwort falsch')
+          console.error('impl me: passwort falsch')
         }
-        console.log('genereller error', reason)
+        console.error('impl me: genereller error', reason)
       })
     }
   },
